@@ -14,6 +14,7 @@ public class MockLiveLinkFacade : ILiveLinkFacade {
         while (retval.Length < 10*1024) {
             streamWriter.Write(string.Format("{0}{1}{2}{3}{4}", token, objectID, version, rendition, renditionType));
         }
+        retval.Position = 0;
         return retval;
     }
 }
