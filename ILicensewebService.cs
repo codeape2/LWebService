@@ -13,5 +13,9 @@ public interface ILicensewebService {
     [OperationContract]
     [WebGet]
     Stream DownloadFile(string token, string objectID, int version, bool rendition, string renditionType);
+    
+    [OperationContract]
+    [WebInvoke]
+    string UploadFile(Stream content, string token, string contextID);
 }
 }
