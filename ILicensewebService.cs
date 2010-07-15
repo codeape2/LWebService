@@ -15,7 +15,11 @@ public interface ILicensewebService {
     Stream DownloadFile(string token, string objectID, int version, bool rendition, string renditionType);
     
     [OperationContract]
-    [WebInvoke]
+    [WebInvoke(UriTemplate="UploadFile?token={token}&contextID={contextID}")]
     string UploadFile(Stream content, string token, string contextID);
+    
+    [OperationContract]
+    [WebInvoke]
+    string DownloadMetadata(string xmlsearchcriteria);
 }
 }
