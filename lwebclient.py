@@ -24,13 +24,16 @@ class LicenseWebClient(object):
                 ).read()
 
     def downloadmetadata(self, search):
+        #return urlopen("{0}/DownloadMetadata".format(self.url), '<string xmlns="http://schemas.microsoft.com/2003/10/Serialization/">{0}</string>'.format(search)).read()
         return urlopen("{0}/DownloadMetadata".format(self.url), search).read()
 
 if __name__ == "__main__":
     c = LicenseWebClient("http://localhost:8000")
     print("AuthenticateUser", c.authenticate("user", "pwd"))
+    """
     filecontents = c.download("foobar", 234)
     print("DownloadFile", filecontents[0:20] + "...", "({0} bytes)".format(len(filecontents)))
+    """
     #print("DownloadFile(invalid token)" , end="")
     #try:
     #    c.download("baz", 19)
@@ -38,8 +41,8 @@ if __name__ == "__main__":
     #    import sys
     #    print(sys.exc_info()[1])
 
-    print("UploadFile", c.upload(token="foobar", contextID="187xxy", filename="lwebclient.py"))
+    #print("UploadFile", c.upload(token="foobar", contextID="187xxy", filename="lwebclient.py"))
     #print("DownloadMetadata", c.downloadmetadata("<search><from>...</from><to>...</to></search>"))
-    print("DownloadMetadata", c.downloadmetadata("boo"))
+    print("DownloadMetadata", c.downloadmetadata("<search>...</search>"))
 
 

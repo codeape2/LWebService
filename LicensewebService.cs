@@ -18,8 +18,14 @@ public class LicensewebService : ILicensewebService {
         return livelink.PutFile(content, token, contextID);
     }
     
-    public string DownloadMetadata(string xmlsearchcriteria) {
-        return livelink.Search(xmlsearchcriteria);
+    public Stream DownloadMetadata(Stream search) {
+        var reader = new StreamReader(search);
+        var retval = new MemoryStream();
+        var writer = new StreamWriter(retval);
+        writer.Write(livelink.Search(reader.ReadToEnd()));
+        writer.Flush();
+        retval.Position = 0;
+        return retval;
     }
     
 

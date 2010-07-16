@@ -20,6 +20,6 @@ public interface ILicensewebService {
     
     [OperationContract]
     [WebInvoke]
-    string DownloadMetadata(string xmlsearchcriteria);
+    Stream DownloadMetadata(Stream search);
 }
 }
