@@ -1,6 +1,13 @@
 """
 A module for communicating with Logica's LicenseWeb API.
 
+Example:
+
+    from lwebclient import LicenseWebClient
+    c = LicenseWebClient("http://url/to/service/")
+    token = c.authenticate("username", "password")
+    ...
+
 """
 from __future__ import print_function
 from urllib2 import urlopen
@@ -24,8 +31,10 @@ class LicenseWebClient(object):
                 ).read()
 
     def downloadmetadata(self, search):
-        #return urlopen("{0}/DownloadMetadata".format(self.url), '<string xmlns="http://schemas.microsoft.com/2003/10/Serialization/">{0}</string>'.format(search)).read()
         return urlopen("{0}/DownloadMetadata".format(self.url), search).read()
+
+    def uploadmetadata(self, metadata):
+        return urlopen("{0}/UploadMetadata".format(self.url), metadata).read()
 
 if __name__ == "__main__":
     c = LicenseWebClient("http://localhost:8000")
@@ -42,5 +51,6 @@ if __name__ == "__main__":
 
     print("UploadFile:", c.upload(token="foobar", contextID="187xxy", filename="lwebclient.py"))
     print("DownloadMetadata:", c.downloadmetadata("<search><from>...</from><to>...</to></search>"))
+    print("UploadMetadata:", c.uploadmetadata("<metadata><doctitle>foo</doctitle></metadata>"))
 
 

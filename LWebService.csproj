@@ -53,6 +53,7 @@
     <Compile Include="ILicensewebService.cs" />
     <Compile Include="ILiveLinkFacade.cs" />
     <Compile Include="LicensewebService.cs" />
+    <Compile Include="LiveLinkFacade.cs" />
     <Compile Include="MockLiveLinkFacade.cs" />
     <Compile Include="ServiceHost.cs" />
   </ItemGroup>

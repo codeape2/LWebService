@@ -35,7 +35,7 @@ public class MockLiveLinkFacade : ILiveLinkFacade {
         
         Console.WriteLine("File saved");
         
-        return "file_saved";
+        return "anObjectID";
     }
     
     public string Search(string searchcriteria) {
@@ -49,6 +49,11 @@ public class MockLiveLinkFacade : ILiveLinkFacade {
         while ((read = input.Read(buffer, 0, buffer.Length)) > 0) {
             output.Write(buffer, 0, read);
         }
+    }
+    
+    public string NewMetadata(string metadata) {
+        Console.WriteLine("Saving metadata: {0}", metadata);
+        return "aContextID";
     }
 
 }
