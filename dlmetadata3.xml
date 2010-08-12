@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<request>
+  <token>{token}</token>
+  <!-- Token received during authentication -->
+  <operation>search</operation>
+  <!-- Operation: Can be upload, search -->
+  <license>Test</license>
+  <object_name></object_name>
+  <!--Specifies the name of the object(an object can be a document, folder etc). Tag is optional-->
+  <creator>Admin</creator>
+  <!--Specifies the creator of a folder, document etc. Tag is optional-->
+  <description></description>
+  <!--Specifies the description of an object. Tag is optional-->
+  <committee>testcommittee</committee>
+  <!--Specifies the committee which an object belongs under. Tag is optional-->
+  <company_ref></company_ref>
+  <!--Specifies that the search should only include documents/folders with the supplied company ref. Tag is optional-->
+  <include_versions>true</include_versions>
+  <!--specifies if the search operation should include version specific data-->
+  <search_document_data>
+    <!--type of data search of content is choosen-->
+    <renditions>false</renditions>
+    <!--includes documents renditions, tag value is boolean-->
+    <originals>true</originals>
+    <!--includes document originals, tag value is boolean-->
+  </search_document_data>
+  <search_data_type>
+    <folders>false</folders>
+    <!--specifies if folders should be included in search, tag values is boolean-->
+    <include_categories>true</include_categories>
+    <!--specifies if categories should be included in search, tag values is boolean-->
+  </search_data_type>
+  <search_location>/</search_location>
+  <!--specifies that the search operation should only search data starting from this folder, e.g. in this case it would search TEST/Subsurface descend, tag is optional-->
+</request>
+

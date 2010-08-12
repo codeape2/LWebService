@@ -14,6 +14,7 @@ from urllib2 import urlopen
 from urllib import urlencode
 from xml.etree import ElementTree as E
 import codecs
+import re
 
 class LicenseWebClient(object):
     def __init__(self, url):
@@ -23,9 +24,9 @@ class LicenseWebClient(object):
         return E.fromstring(urlopen("{0}/AuthenticateUser?username={1}&password={2}".format(
             self.url, username, password)).read()).text
 
-    def download(self, token, objectid):
-        return urlopen("{0}/DownloadFile?token={1}&objectid={2}".format(
-            self.url, token, objectid)).read()
+    def downloadfile(self, token, object_id, version, rendition, renditionType):
+        return urlopen("{0}/DownloadFile?token={1}&ID={2}&ver={3}&rendition={4}&type={5}".format(
+            self.url, token, object_id, version, rendition, renditionType)).read()
 
     def upload(self, token, contextID, filename):
         return urlopen("{0}/UploadFile?token={1}&contextID={2}".format(self.url, token, contextID), 
@@ -42,31 +43,24 @@ URL = "http://localhost/L2SService/L2S_service.svc"
 #URL = "http://localhost:2636/L2S_service.svc"
 USER = "admin"
 PWD = "livelink"
+SEARCHFILE = "dlmetadata3.xml"
 
 if __name__ == "__main__":
     c = LicenseWebClient(URL)
     token = c.authenticate(USER, PWD)
     print("AuthenticateUser:", token)
 
-    search_xml = codecs.open("dlmetadata2.xml").read().format(token=token)
+    search_xml = codecs.open(SEARCHFILE).read().format(token=token)
     print(search_xml)
     search_result = c.downloadmetadata(search_xml)
-    print(type(search_result)) # str
     print(search_result, file=open("search_result.xml", "w"))
 
-    """
-    filecontents = c.download(token="foobar", objectid=234)
-    print("DownloadFile:", filecontents[0:20] + "...", "({0} bytes)".format(len(filecontents)))
-    #print("DownloadFile(invalid token)" , end="")
-    #try:
-    #    c.download("baz", 19)
-    #except:
-    #    import sys
-    #    print(sys.exc_info()[1])
-
-    print("UploadFile:", c.upload(token="foobar", contextID="187xxy", filename="lwebclient.py"))
-    print("DownloadMetadata:", c.downloadmetadata("<search><from>...</from><to>...</to></search>"))
-    print("UploadMetadata:", c.uploadmetadata("<metadata><doctitle>foo</doctitle></metadata>"))
-    """
-
+    result = E.fromstring(search_result[39:])
+    print("Documents:")
+    for document in result.findall("documents/document"):
+        object_id = document.find("object_id").text
+        version = document.find("version").text
+        file_content = c.downloadfile(token, object_id, version, "false", "")
+        print("Length:", len(file_content))
+        print("Content:", file_content)
 
