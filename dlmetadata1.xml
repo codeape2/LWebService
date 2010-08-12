@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<request>
+    <token>{token}</token>
+    <operation>search</operation>
+    <license>Test</license>
+    <created_from_date>
+        <year>2010</year>
+        <month>01</month>
+        <day>01</day>
+    </created_from_date>
+    <created_to_date>
+        <year>2011</year>
+        <month>01</month>
+        <day>01</day>
+    </created_to_date>
+
+    <include_versions>true</include_versions>
+
+    <search_document_data>
+        <renditions>true</renditions>
+        <originals>true</originals>
+    </search_document_data>
+
+    <search_data_type>
+        <folders>true</folders>
+        <include_categories>false</include_categories>
+    </search_data_type>
+
+    <search_location>/</search_location>
+</request>

@@ -13,6 +13,7 @@ from __future__ import print_function
 from urllib2 import urlopen
 from urllib import urlencode
 from xml.etree import ElementTree as E
+import codecs
 
 class LicenseWebClient(object):
     def __init__(self, url):
@@ -32,12 +33,13 @@ class LicenseWebClient(object):
                 ).read()
 
     def downloadmetadata(self, search):
-        return urlopen("{0}/DownloadMetadata".format(self.url), search).read()
+        return E.fromstring(urlopen("{0}/DownloadMetadata".format(self.url), search).read()).text
 
     def uploadmetadata(self, metadata):
         return urlopen("{0}/UploadMetadata".format(self.url), metadata).read()
 
 URL = "http://localhost/L2SService/L2S_service.svc"
+#URL = "http://localhost:2636/L2S_service.svc"
 USER = "admin"
 PWD = "livelink"
 
@@ -45,6 +47,12 @@ if __name__ == "__main__":
     c = LicenseWebClient(URL)
     token = c.authenticate(USER, PWD)
     print("AuthenticateUser:", token)
+
+    search_xml = codecs.open("dlmetadata2.xml").read().format(token=token)
+    print(search_xml)
+    search_result = c.downloadmetadata(search_xml)
+    print(type(search_result)) # str
+    print(search_result, file=open("search_result.xml", "w"))
 
     """
     filecontents = c.download(token="foobar", objectid=234)
