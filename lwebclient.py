@@ -12,14 +12,15 @@ Example:
 from __future__ import print_function
 from urllib2 import urlopen
 from urllib import urlencode
+from xml.etree import ElementTree as E
 
 class LicenseWebClient(object):
     def __init__(self, url):
         self.url = url
 
     def authenticate(self, username, password):
-        return urlopen("{0}/AuthenticateUser?username={1}&password={2}".format(
-            self.url, username, password)).read()
+        return E.fromstring(urlopen("{0}/AuthenticateUser?username={1}&password={2}".format(
+            self.url, username, password)).read()).text
 
     def download(self, token, objectid):
         return urlopen("{0}/DownloadFile?token={1}&objectid={2}".format(
@@ -36,10 +37,16 @@ class LicenseWebClient(object):
     def uploadmetadata(self, metadata):
         return urlopen("{0}/UploadMetadata".format(self.url), metadata).read()
 
-if __name__ == "__main__":
-    c = LicenseWebClient("http://localhost:8000")
-    print("AuthenticateUser:", c.authenticate("user", "pwd"))
+URL = "http://localhost/L2SService/L2S_service.svc"
+USER = "admin"
+PWD = "livelink"
 
+if __name__ == "__main__":
+    c = LicenseWebClient(URL)
+    token = c.authenticate(USER, PWD)
+    print("AuthenticateUser:", token)
+
+    """
     filecontents = c.download(token="foobar", objectid=234)
     print("DownloadFile:", filecontents[0:20] + "...", "({0} bytes)".format(len(filecontents)))
     #print("DownloadFile(invalid token)" , end="")
@@ -52,5 +59,6 @@ if __name__ == "__main__":
     print("UploadFile:", c.upload(token="foobar", contextID="187xxy", filename="lwebclient.py"))
     print("DownloadMetadata:", c.downloadmetadata("<search><from>...</from><to>...</to></search>"))
     print("UploadMetadata:", c.uploadmetadata("<metadata><doctitle>foo</doctitle></metadata>"))
+    """
 
 
